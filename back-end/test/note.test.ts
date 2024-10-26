@@ -55,9 +55,11 @@ describe("GET /api/notes/:noteId", () => {
 
 		logger.debug(response.body);
 		expect(response.status).toBe(200);
-		expect(response.body.data.id).toBeDefined;
+		expect(response.body.data.id).toBeDefined();
 		expect(response.body.data.title).toBe(note.title);
 		expect(response.body.data.content).toBe(note.content);
+		expect(response.body.data.created_at).toBeDefined();
+		expect(response.body.data.updated_at).toBeDefined();
 	});
 
 	it("should not be able to get note", async () => {
@@ -68,7 +70,7 @@ describe("GET /api/notes/:noteId", () => {
 
 		logger.debug(response.body);
 		expect(response.status).toBe(404);
-		expect(response.body.errors).toBeDefined;
+		expect(response.body.errors).toBeDefined();
 	});
 });
 
@@ -95,6 +97,8 @@ describe("PUT /api/notes/:noteId", () => {
 		expect(response.body.data.id).toBe(note.id);
 		expect(response.body.data.title).toBe("newTitle");
 		expect(response.body.data.content).toBe("newContent");
+		expect(response.body.data.created_at).toBeDefined();
+		expect(response.body.data.updated_at).toBeDefined();
 	});
 
 	it("should not be able to update note if request is invalid", async () => {
@@ -106,7 +110,7 @@ describe("PUT /api/notes/:noteId", () => {
 
 		logger.debug(response.body);
 		expect(response.status).toBe(400);
-		expect(response.body.errors).toBeDefined;
+		expect(response.body.errors).toBeDefined();
 	});
 });
 
@@ -138,7 +142,7 @@ describe("DELETE /api/notes/:noteId", () => {
 
 		logger.debug(response.body);
 		expect(response.status).toBe(404);
-		expect(response.body.errors).toBeDefined;
+		expect(response.body.errors).toBeDefined();
 	});
 });
 

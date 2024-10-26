@@ -59,9 +59,11 @@ describe("GET /api/notes/:noteId", () => {
         const response = yield (0, supertest_1.default)(web_1.web).get(`/api/notes/${note.id}`).set("X-API-TOKEN", "test");
         logging_1.logger.debug(response.body);
         expect(response.status).toBe(200);
-        expect(response.body.data.id).toBeDefined;
+        expect(response.body.data.id).toBeDefined();
         expect(response.body.data.title).toBe(note.title);
         expect(response.body.data.content).toBe(note.content);
+        expect(response.body.data.created_at).toBeDefined();
+        expect(response.body.data.updated_at).toBeDefined();
     }));
     it("should not be able to get note", () => __awaiter(void 0, void 0, void 0, function* () {
         const note = yield test_util_1.NoteTest.get();
@@ -70,7 +72,7 @@ describe("GET /api/notes/:noteId", () => {
             .set("X-API-TOKEN", "test");
         logging_1.logger.debug(response.body);
         expect(response.status).toBe(404);
-        expect(response.body.errors).toBeDefined;
+        expect(response.body.errors).toBeDefined();
     }));
 });
 describe("PUT /api/notes/:noteId", () => {
@@ -93,6 +95,8 @@ describe("PUT /api/notes/:noteId", () => {
         expect(response.body.data.id).toBe(note.id);
         expect(response.body.data.title).toBe("newTitle");
         expect(response.body.data.content).toBe("newContent");
+        expect(response.body.data.created_at).toBeDefined();
+        expect(response.body.data.updated_at).toBeDefined();
     }));
     it("should not be able to update note if request is invalid", () => __awaiter(void 0, void 0, void 0, function* () {
         const note = yield test_util_1.NoteTest.get();
@@ -102,7 +106,7 @@ describe("PUT /api/notes/:noteId", () => {
         });
         logging_1.logger.debug(response.body);
         expect(response.status).toBe(400);
-        expect(response.body.errors).toBeDefined;
+        expect(response.body.errors).toBeDefined();
     }));
 });
 describe("DELETE /api/notes/:noteId", () => {
@@ -128,7 +132,7 @@ describe("DELETE /api/notes/:noteId", () => {
             .set("X-API-TOKEN", "test");
         logging_1.logger.debug(response.body);
         expect(response.status).toBe(404);
-        expect(response.body.errors).toBeDefined;
+        expect(response.body.errors).toBeDefined();
     }));
 });
 describe("GET /api/notes", () => {

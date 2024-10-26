@@ -4,6 +4,8 @@ export type NoteResponse = {
 	id: number;
 	title: string;
 	content: string;
+	created_at: Date;
+	updated_at: Date;
 };
 
 export type CreateNoteRequest = {
@@ -29,5 +31,7 @@ export function toNoteResponse(note: Note): NoteResponse {
 		id: note.id,
 		title: note.title,
 		content: note.content,
+		created_at: note.created_at,
+		updated_at: note.updated_at,
 	};
 }

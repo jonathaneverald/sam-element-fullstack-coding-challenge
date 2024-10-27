@@ -11,7 +11,7 @@ const LoginPage = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("/api/users/login", { username, password });
+			const response = await axios.post("https://sam-element-fullstack-api-production.up.railway.app/api/users/login", { username, password });
 			if (response.status === 200) {
 				// Store the token in local storage
 				localStorage.setItem("authToken", response.data.data.token);

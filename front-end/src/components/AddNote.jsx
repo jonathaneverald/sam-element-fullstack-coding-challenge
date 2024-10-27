@@ -10,7 +10,7 @@ const NewNoteModal = ({ onClose, onAdd }) => {
 		try {
 			const authToken = localStorage.getItem("authToken");
 			const response = await axios.post(
-				"/api/notes",
+				"https://sam-element-fullstack-api-production.up.railway.app/api/notes",
 				{ title, content },
 				{
 					headers: { "X-API-TOKEN": authToken },

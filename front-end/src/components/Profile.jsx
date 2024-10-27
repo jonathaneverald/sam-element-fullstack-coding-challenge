@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const ProfileModal = ({ isOpen, onClose, user }) => {
+	const [username, setUsername] = useState(user.username);
 	const [name, setName] = useState(user.name);
 	const [password, setPassword] = useState("");
 	const [isEditing, setIsEditing] = useState(false);
@@ -11,11 +12,16 @@ const ProfileModal = ({ isOpen, onClose, user }) => {
 		setIsEditing(!isEditing);
 	};
 
+	useEffect(() => {
+		setUsername(user.username);
+		setName(user.name);
+	}, [user]);
+
 	const handleSave = async () => {
 		try {
 			const authToken = localStorage.getItem("authToken");
 			await axios.patch(
-				"/api/users/current",
+				"https://sam-element-fullstack-api-production.up.railway.app/api/users/current",
 				{ name, password },
 				{
 					headers: { "X-API-TOKEN": authToken },
@@ -56,7 +62,7 @@ const ProfileModal = ({ isOpen, onClose, user }) => {
 						{errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 						<div className="mb-3">
 							<label className="form-label">Username</label>
-							<input type="text" className="form-control" value={user.username} disabled />
+							<input type="text" className="form-control" value={username} disabled />
 						</div>
 						<div className="mb-3">
 							<label className="form-label">Name</label>

@@ -15,7 +15,7 @@ const NoteModal = ({ note, onClose, onUpdate }) => {
 		try {
 			const authToken = localStorage.getItem("authToken");
 			const response = await axios.put(
-				`/api/notes/${note.id}`,
+				`https://sam-element-fullstack-api-production.up.railway.app/api/notes/${note.id}`,
 				{ title, content },
 				{
 					headers: { "X-API-TOKEN": authToken },

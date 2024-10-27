@@ -14,16 +14,34 @@ const NotesPage = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [user, setUser] = useState({ username: "", name: "" }); // Add user state
 
 	const notesPerPage = 12;
 	const contentPreviewLimit = 100;
 	const debounceDelay = 1000; // 1 second debounce delay for search
 
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const authToken = localStorage.getItem("authToken");
+				const response = await axios.get("https://sam-element-fullstack-api-production.up.railway.app/api/users/current", {
+					headers: { "X-API-TOKEN": authToken },
+				});
+				setUser(response.data); // Set the user data from response
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+				setErrorMessage("Failed to fetch user data");
+			}
+		};
+
+		fetchUserData();
+	}, []);
+
 	// Fetch notes with optional search query and pagination
 	const fetchNotes = async (page = 1, query = "") => {
 		try {
 			const authToken = localStorage.getItem("authToken");
-			const response = await axios.get("/api/notes", {
+			const response = await axios.get("https://sam-element-fullstack-api-production.up.railway.app/api/notes", {
 				headers: { "X-API-TOKEN": authToken },
 				params: {
 					page: page,
@@ -54,7 +72,7 @@ const NotesPage = () => {
 	const handleDelete = async (noteId) => {
 		try {
 			const authToken = localStorage.getItem("authToken");
-			await axios.delete(`/api/notes/${noteId}`, {
+			await axios.delete(`https://sam-element-fullstack-api-production.up.railway.app/api/notes/${noteId}`, {
 				headers: { "X-API-TOKEN": authToken },
 			});
 			fetchNotes(currentPage, searchQuery); // Refresh current page with the current search query
@@ -171,7 +189,13 @@ const NotesPage = () => {
 					}}
 				/>
 			)}
-			{isProfileModalOpen && <ProfileModal isOpen={isProfileModalOpen} onClose={() => setIsProfileModalOpen(false)} user={{ username: "customer", name: "Customer" }} />}
+			{isProfileModalOpen && (
+				<ProfileModal
+					isOpen={isProfileModalOpen}
+					onClose={() => setIsProfileModalOpen(false)}
+					user={{ username: user.data.username, name: user.data.name }} // Use dynamic user data here
+				/>
+			)}
 			{isNewNoteModalOpen && <NewNoteModal onClose={() => setIsNewNoteModalOpen(false)} onAdd={handleNewNoteAdd} />}
 		</div>
 	);

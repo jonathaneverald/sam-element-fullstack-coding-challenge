@@ -13,7 +13,7 @@ const RegisterPage = () => {
 	const handleRegister = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("/api/users", { username, name, password });
+			const response = await axios.post("https://sam-element-fullstack-api-production.up.railway.app/api/users", { username, name, password });
 			if (response.status === 200) {
 				setSuccessMessage("Registration successful! Redirecting to login...");
 				setTimeout(() => navigate("/"), 2000); // Redirect to login after 2 seconds

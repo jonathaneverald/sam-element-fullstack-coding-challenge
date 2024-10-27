@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// At the top of your App.js or index.js
-axios.defaults.withCredentials = true;
-axios.defaults.headers.common["Accept"] = "application/json";
-axios.defaults.headers.post["Content-Type"] = "application/json";
-
 const RegisterPage = () => {
 	const [username, setUsername] = useState("");
 	const [name, setName] = useState("");
@@ -24,9 +19,7 @@ const RegisterPage = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Accept: "application/json",
 					},
-					withCredentials: true,
 				}
 			);
 			if (response.status === 200) {
